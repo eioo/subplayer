@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { searchSubtitlesByFilename } from '../utils/opensubtitles';
 import { VideoContext } from './Video.context';
 
 const supportedFileTypes = ['video/mp4', 'video/webm', 'video/ogg'];
@@ -32,9 +33,6 @@ export default function Player() {
     }
 
     reader.onloadend = (loadEvent: any) => {
-      // tslint:disable-next-line:no-console
-      console.log(loadEvent);
-
       const blob = new Blob([new Uint8Array(loadEvent.target.result)], {
         type: uploadedFile.type,
       });
@@ -44,7 +42,11 @@ export default function Player() {
         filename: uploadedFile.name,
         url,
       });
+
+      searchSubtitlesByFilename(uploadedFile.name);
     };
+
+    reader.readAsArrayBuffer(uploadedFile);
   };
 
   return (
