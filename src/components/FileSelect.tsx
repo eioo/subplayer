@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { VideoContext } from './Video.context';
 
+const supportedFileTypes = ['video/mp4', 'video/webm', 'video/ogg'];
 const reader = new FileReader();
 
 export default function Player() {
-  const { setVideoUrl } = useContext(VideoContext);
+  const { setVideo } = useContext(VideoContext);
 
   useEffect(() => {
     const supported = [
@@ -19,22 +20,31 @@ export default function Player() {
     }
   }, []);
 
-  const onFileChange = (evt: any) => {
+  const onFileChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (!evt.target || !evt.target.files || !evt.target.files.length) {
+      return;
+    }
+
     const uploadedFile = evt.target.files[0];
+
+    if (supportedFileTypes.indexOf(uploadedFile.type) === -1) {
+      return alert('File type not supported.');
+    }
 
     reader.onloadend = (loadEvent: any) => {
       // tslint:disable-next-line:no-console
-      console.log(loadEvent.target);
+      console.log(loadEvent);
 
-      const video = new Blob([new Uint8Array(loadEvent.target.result)], {
-        type: 'video/mp4',
+      const blob = new Blob([new Uint8Array(loadEvent.target.result)], {
+        type: uploadedFile.type,
       });
-      const url = window.URL.createObjectURL(video);
+      const url = window.URL.createObjectURL(blob);
 
-      setVideoUrl(url);
+      setVideo({
+        filename: uploadedFile.name,
+        url,
+      });
     };
-
-    reader.readAsArrayBuffer(uploadedFile);
   };
 
   return (

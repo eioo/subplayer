@@ -1,14 +1,18 @@
 // tslint:disable:no-empty
 import { createContext } from 'react';
+import { IVideo } from '../types';
 
 interface IVideoContext {
-  videoUrl: string;
-  setVideoUrl: React.Dispatch<React.SetStateAction<string>>;
+  video: IVideo;
+  setVideo: React.Dispatch<React.SetStateAction<IVideo>>;
 }
 
 const initialState: IVideoContext = {
-  videoUrl: '',
-  setVideoUrl: () => {},
+  video: {
+    filename: '',
+    url: '',
+  },
+  setVideo: () => {},
 };
 
 export const VideoContext = createContext(initialState);
