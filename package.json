@@ -1,5 +1,5 @@
 {
-  "name": "react-starter",
+  "name": "subplayer",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -10,13 +10,16 @@
   },
   "dependencies": {
     "json5": "^2.1.0",
+    "opensubtitles-api": "^5.0.1",
     "parcel-bundler": "^1.10.3",
     "react": "^16.7.0-alpha.2",
-    "react-dom": "^16.7.0-alpha.2"
+    "react-dom": "^16.7.0-alpha.2",
+    "styled-components": "^4.1.3"
   },
   "devDependencies": {
     "@types/react": "^16.7.6",
     "@types/react-dom": "^16.0.9",
+    "@types/styled-components": "^4.1.6",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
