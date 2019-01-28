@@ -3,5 +3,3 @@ interface Window {
   FileList: any;
   File: any;
 }
-
-declare module 'opensubtitles-api';
