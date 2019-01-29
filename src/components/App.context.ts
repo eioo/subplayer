@@ -2,12 +2,12 @@
 import { createContext } from 'react';
 import { IVideo } from '../types';
 
-interface IVideoContext {
+interface IAppContext {
   video: IVideo;
   setVideo: React.Dispatch<React.SetStateAction<IVideo>>;
 }
 
-const initialState: IVideoContext = {
+const initialState: IAppContext = {
   video: {
     filename: '',
     url: '',
@@ -15,4 +15,4 @@ const initialState: IVideoContext = {
   setVideo: () => {},
 };
 
-export const VideoContext = createContext(initialState);
+export const AppContext = createContext(initialState);

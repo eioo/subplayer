@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { searchSubtitlesByFilename } from '../utils/opensubtitles';
-import { VideoContext } from './Video.context';
+import { AppContext } from './App.context';
 
 const supportedFileTypes = ['video/mp4', 'video/webm', 'video/ogg'];
 const reader = new FileReader();
 
 export default function Player() {
-  const { setVideo } = useContext(VideoContext);
+  const { setVideo } = useContext(AppContext);
 
   useEffect(() => {
     const supported = [

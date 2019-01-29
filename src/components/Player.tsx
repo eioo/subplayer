@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { VideoContext } from './Video.context';
+import { AppContext } from './App.context';
 
 export default function Player() {
-  const { video } = useContext(VideoContext);
+  const { video } = useContext(AppContext);
 
   return (
     <div>

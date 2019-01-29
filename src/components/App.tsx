@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
+import { AppContext } from './App.context';
 import FileSelect from './FileSelect';
 import Player from './Player';
-import { VideoContext } from './Video.context';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Roboto');
@@ -19,7 +19,7 @@ export default function App() {
   });
 
   return (
-    <VideoContext.Provider
+    <AppContext.Provider
       value={{
         video,
         setVideo,
@@ -29,6 +29,6 @@ export default function App() {
 
       <Player />
       <FileSelect />
-    </VideoContext.Provider>
+    </AppContext.Provider>
   );
 }
