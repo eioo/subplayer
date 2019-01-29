@@ -1,9 +1,10 @@
 import React, { useContext, useEffect } from 'react';
+import { getFileHash } from '../utils/filehash';
 import { searchSubtitlesByFilename } from '../utils/opensubtitles';
 import { AppContext } from './App.context';
 
 const supportedFileTypes = ['video/mp4', 'video/webm', 'video/ogg'];
-const reader = new FileReader();
+const arrayBufferReader = new FileReader();
 
 export default function Player() {
   const { setVideo } = useContext(AppContext);
@@ -32,8 +33,8 @@ export default function Player() {
       return alert('File type not supported.');
     }
 
-    reader.onloadend = (loadEvent: any) => {
-      const blob = new Blob([new Uint8Array(loadEvent.target.result)], {
+    arrayBufferReader.onloadend = ({ target }: any) => {
+      const blob = new Blob([new Uint8Array(target.result)], {
         type: uploadedFile.type,
       });
       const url = window.URL.createObjectURL(blob);
@@ -46,7 +47,11 @@ export default function Player() {
       searchSubtitlesByFilename(uploadedFile.name);
     };
 
-    reader.readAsArrayBuffer(uploadedFile);
+    arrayBufferReader.readAsArrayBuffer(uploadedFile);
+
+    getFileHash(uploadedFile, fileHash => {
+      console.log('Calculated filehash: ' + fileHash);
+    });
   };
 
   return (
