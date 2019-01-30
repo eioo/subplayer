@@ -1,3 +1,4 @@
+import iconv from 'iconv-lite';
 import pako from 'pako';
 import VTTConverter from 'srt-webvtt';
 import { ISubtitle } from '../types/types';
@@ -16,7 +17,7 @@ async function downloadSubtitle(url: string): Promise<string> {
   const arrayBuffer = await request.arrayBuffer();
   const byteArray = new Uint8Array(arrayBuffer);
   const data = pako.inflate(byteArray);
-  const srtData = new TextDecoder('utf-8').decode(data);
+  const srtData = iconv.decode(Buffer.from(data), 'iso-8859-1');
 
   return srtData;
 }

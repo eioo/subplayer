@@ -9,6 +9,7 @@
     "start": "npm run dev"
   },
   "dependencies": {
+    "iconv-lite": "^0.4.24",
     "json5": "^2.1.0",
     "pako": "^1.0.8",
     "parcel-bundler": "^1.10.3",
