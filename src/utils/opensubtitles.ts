@@ -1,7 +1,7 @@
 import config from '../config';
 
 const API_URL = 'https://api.opensubtitles.org:443/xml-rpc';
-const USERAGENT = config.openSubtitles.useragent;
+const USERAGENT = config.opensubtitles.useragent;
 
 let accessToken: string;
 
