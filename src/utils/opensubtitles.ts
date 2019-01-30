@@ -1,4 +1,5 @@
 import config from '../config';
+import { ISubtitle } from '../types/types';
 import { sliceString } from './sliceString';
 
 const API_URL = 'https://api.opensubtitles.org:443/xml-rpc';
@@ -6,13 +7,9 @@ const USERAGENT = config.opensubtitles.useragent;
 
 let accessToken: string;
 
-interface ISubtitle {
-  languageAbbr: string;
-  language: string;
-  downloadUrl: string;
-}
-
-export async function searchSubtitlesByHash(hash: string) {
+export async function searchSubtitlesByHash(
+  hash: string
+): Promise<ISubtitle[]> {
   if (!accessToken) {
     accessToken = await getAccessToken();
   }
@@ -49,7 +46,7 @@ export async function searchSubtitlesByHash(hash: string) {
     subtitles.push(subtitle);
   }
 
-  console.log(subtitles);
+  return subtitles;
 }
 
 async function getAccessToken(): Promise<string> {
@@ -64,7 +61,7 @@ async function getAccessToken(): Promise<string> {
   return token;
 }
 
-const removeWhitespace = (s: string) => s.replace(/\>\s+\</g, '><');
+const removeWhitespace = (s: string): string => s.replace(/\>\s+\</g, '><');
 
 const xmlGetAccessToken = removeWhitespace(`
 <methodCall>

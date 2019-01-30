@@ -1,15 +1,12 @@
 // tslint:disable:no-empty
 import { createContext } from 'react';
-
-export interface IVideo {
-  filename?: string;
-  url?: string;
-  hash?: string;
-}
+import { ISubtitle, IVideo } from '../types/types';
 
 interface IAppContext {
   video: IVideo;
+  subtitles: ISubtitle[];
   setVideo: React.Dispatch<React.SetStateAction<IVideo>>;
+  setSubtitles: React.Dispatch<React.SetStateAction<ISubtitle[]>>;
 }
 
 const initialState: IAppContext = {
@@ -18,7 +15,9 @@ const initialState: IAppContext = {
     url: '',
     hash: '',
   },
+  subtitles: [],
   setVideo: () => {},
+  setSubtitles: () => {},
 };
 
 export const AppContext = createContext(initialState);
