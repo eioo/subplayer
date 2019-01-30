@@ -46,7 +46,7 @@ export async function searchSubtitlesByHash(
     subtitles.push(subtitle);
   }
 
-  return subtitles;
+  return subtitles.sort((a, b) => a.language.localeCompare(b.language));
 }
 
 async function getAccessToken(): Promise<string> {
