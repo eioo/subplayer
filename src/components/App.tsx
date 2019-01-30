@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
-import { AppContext } from './App.context';
+import { searchSubtitlesByHash } from '../utils/opensubtitles';
+import { AppContext, IVideo } from './App.context';
 import FileSelect from './FileSelect';
 import Player from './Player';
 
@@ -13,7 +14,19 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default function App() {
-  const [video, setVideo] = useState({});
+  const initialVideo: IVideo = {};
+  const [video, setVideo] = useState(initialVideo);
+
+  useEffect(
+    () => {
+      if (!video.hash) {
+        return;
+      }
+
+      searchSubtitlesByHash(video.hash);
+    },
+    [video]
+  );
 
   return (
     <AppContext.Provider
