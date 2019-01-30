@@ -1,13 +1,27 @@
 import React, { useContext, useEffect } from 'react';
+import styled from 'styled-components';
 import { getFileHash } from '../utils/filehash';
-import { searchSubtitlesByFilename } from '../utils/opensubtitles';
 import { AppContext } from './App.context';
+
+const Grid = styled.span`
+  display: grid;
+  grid-template-columns: 100px 1fr;
+`;
+
+const Left = styled.span`
+  padding-right: 15px;
+  text-align: right;
+`;
+
+const Right = styled.span`
+  color: gray;
+`;
 
 const supportedFileTypes = ['video/mp4', 'video/webm', 'video/ogg'];
 const arrayBufferReader = new FileReader();
 
 export default function Player() {
-  const { setVideo } = useContext(AppContext);
+  const { video, setVideo } = useContext(AppContext);
 
   useEffect(() => {
     const supported = [
@@ -27,36 +41,44 @@ export default function Player() {
       return;
     }
 
-    const uploadedFile = evt.target.files[0];
+    const selectedFile = evt.target.files[0];
 
-    if (supportedFileTypes.indexOf(uploadedFile.type) === -1) {
+    if (supportedFileTypes.indexOf(selectedFile.type) === -1) {
       return alert('File type not supported.');
     }
 
-    arrayBufferReader.onloadend = ({ target }: any) => {
+    arrayBufferReader.onloadend = async ({ target }: any) => {
       const blob = new Blob([new Uint8Array(target.result)], {
-        type: uploadedFile.type,
+        type: selectedFile.type,
       });
       const url = window.URL.createObjectURL(blob);
+      const hash = await getFileHash(selectedFile);
 
       setVideo({
-        filename: uploadedFile.name,
+        filename: selectedFile.name,
         url,
+        hash,
       });
-
-      searchSubtitlesByFilename(uploadedFile.name);
     };
 
-    arrayBufferReader.readAsArrayBuffer(uploadedFile);
-
-    getFileHash(uploadedFile, fileHash => {
-      console.log('Calculated filehash: ' + fileHash);
-    });
+    arrayBufferReader.readAsArrayBuffer(selectedFile);
   };
 
   return (
     <div>
-      <input type="file" name="file" onChange={onFileChange} />
+      <p>
+        <input type="file" name="file" onChange={onFileChange} />
+      </p>
+      <Grid>
+        <Left>URL:</Left>
+        <Right>{video.url || '-'}</Right>
+
+        <Left>Filename:</Left>
+        <Right>{video.filename || '-'}</Right>
+
+        <Left>File hash:</Left>
+        <Right>{video.hash || '-'}</Right>
+      </Grid>
     </div>
   );
 }

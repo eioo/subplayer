@@ -1,6 +1,11 @@
 // tslint:disable:no-empty
 import { createContext } from 'react';
-import { IVideo } from '../types';
+
+export interface IVideo {
+  filename?: string;
+  url?: string;
+  hash?: string;
+}
 
 interface IAppContext {
   video: IVideo;
@@ -11,6 +16,7 @@ const initialState: IAppContext = {
   video: {
     filename: '',
     url: '',
+    hash: '',
   },
   setVideo: () => {},
 };

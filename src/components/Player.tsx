@@ -10,7 +10,6 @@ export default function Player() {
         <source src={video.url} type="video/mp4" />
         Video tags not supported
       </video>
-      <p>Filename: {video.filename || '-'}</p>
     </div>
   );
 }

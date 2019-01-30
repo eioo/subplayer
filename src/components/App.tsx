@@ -13,10 +13,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default function App() {
-  const [video, setVideo] = useState({
-    url: '',
-    filename: '',
-  });
+  const [video, setVideo] = useState({});
 
   return (
     <AppContext.Provider

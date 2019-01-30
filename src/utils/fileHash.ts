@@ -1,7 +1,7 @@
 // tslint:disable:no-bitwise
 const HASH_CHUNK_SIZE = 64 * 1024;
 
-export function getFileHash(file: File, callback: (fileHash: string) => void) {
+export async function getFileHash(file: File): Promise<string> {
   const longs: number[] = [];
   let temp = file.size;
 
@@ -58,9 +58,12 @@ export function getFileHash(file: File, callback: (fileHash: string) => void) {
     temp = temp >> 8;
   }
 
-  read(0, HASH_CHUNK_SIZE, () => {
-    read(file.size - HASH_CHUNK_SIZE, undefined, () => {
-      callback(binl2hex(longs));
+  return new Promise((resolve, reject) => {
+    read(0, HASH_CHUNK_SIZE, () => {
+      read(file.size - HASH_CHUNK_SIZE, undefined, () => {
+        const hash = binl2hex(longs);
+        resolve(hash);
+      });
     });
   });
 }
