@@ -4,6 +4,7 @@ import { ISubtitle, IVideo } from '../types/types';
 import { searchSubtitlesByHash } from '../utils/opensubtitles';
 import { AppContext } from './App.context';
 import FileSelect from './FileSelect';
+import Info from './Info';
 import Player from './Player';
 import SubtitleSelect from './SubtitleSelect';
 
@@ -20,6 +21,7 @@ export default function App() {
   const initialSubtitles: ISubtitle[] = [];
   const [video, setVideo] = useState(initialVideo);
   const [subtitles, setSubtitles] = useState(initialSubtitles);
+  const [subTrack, setSubTrack] = useState('');
 
   const fetchSubtitles = async () => {
     if (!video.hash) {
@@ -42,8 +44,10 @@ export default function App() {
       value={{
         video,
         subtitles,
+        subTrack,
         setVideo,
         setSubtitles,
+        setSubTrack,
       }}
     >
       <GlobalStyle />
@@ -51,6 +55,7 @@ export default function App() {
       <Player />
       <SubtitleSelect />
       <FileSelect />
+      <Info />
     </AppContext.Provider>
   );
 }

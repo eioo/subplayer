@@ -3,25 +3,11 @@ import styled from 'styled-components';
 import { getFileHash } from '../utils/filehash';
 import { AppContext } from './App.context';
 
-const Grid = styled.span`
-  display: grid;
-  grid-template-columns: 100px 1fr;
-`;
-
-const Left = styled.span`
-  padding-right: 15px;
-  text-align: right;
-`;
-
-const Right = styled.span`
-  color: gray;
-`;
-
 const supportedFileTypes = ['video/mp4', 'video/webm', 'video/ogg'];
 const arrayBufferReader = new FileReader();
 
 export default function Player() {
-  const { video, setVideo } = useContext(AppContext);
+  const { setVideo } = useContext(AppContext);
 
   useEffect(() => {
     const supported = [
@@ -69,16 +55,6 @@ export default function Player() {
       <p>
         <input type="file" name="file" onChange={onFileChange} />
       </p>
-      <Grid>
-        <Left>URL:</Left>
-        <Right>{video.url || '-'}</Right>
-
-        <Left>Filename:</Left>
-        <Right>{video.filename || '-'}</Right>
-
-        <Left>File hash:</Left>
-        <Right>{video.hash || '-'}</Right>
-      </Grid>
     </div>
   );
 }
