@@ -1,41 +1,28 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ISubtitle } from '../types/types';
-import { subtitleToWebVTT } from '../utils/subtitleToWebVTT';
-import { AppContext } from './App.context';
+import { ISubtitle } from '../types/models';
 
-interface ISubSelectProps {
+interface IContainerProps {
   visible: boolean;
 }
 
-const SubSelect = styled.div`
-  display: ${({ visible }: ISubSelectProps) =>
+const Container = styled.div`
+  display: ${({ visible }: IContainerProps) =>
     visible ? 'inline-block' : 'none'};
 `;
 
-export default function SubtitleSelect() {
-  const { subtitles, setSubTrack } = useContext(AppContext);
+interface ISubtitleSelectProps {
+  subtitles: ISubtitle[];
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}
 
-  const downloadSubtitle = async (subtitle: ISubtitle) => {
-    const url = await subtitleToWebVTT(subtitle);
-    setSubTrack(url);
-  };
-
-  const handleSelect = (event: React.SyntheticEvent) => {
-    const { value } = event.target as HTMLSelectElement;
-    const subtitle = subtitles[value];
-
-    if (!subtitle) {
-      return alert('Something went wrong');
-    }
-
-    downloadSubtitle(subtitle);
-  };
+export default function SubtitleSelect(props: ISubtitleSelectProps) {
+  const { subtitles, onChange } = props;
 
   return (
-    <SubSelect visible={!!subtitles.length}>
+    <Container visible={Boolean(subtitles.length)}>
       Subtitles:&nbsp;
-      <select onChange={handleSelect}>
+      <select onChange={onChange}>
         <option defaultValue={`Select subtitle (${subtitles.length})`}>
           Select subtitle
         </option>
@@ -45,6 +32,6 @@ export default function SubtitleSelect() {
           </option>
         ))}
       </select>
-    </SubSelect>
+    </Container>
   );
 }

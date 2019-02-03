@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { AppContext } from './App.context';
+import { IVideo } from '../types/models';
 
 const Grid = styled.span`
   display: grid;
@@ -16,8 +16,13 @@ const Right = styled.span`
   color: gray;
 `;
 
-export default function Info() {
-  const { video, subTrack } = useContext(AppContext);
+interface IInfoProps {
+  video: IVideo;
+  subTrack: string;
+}
+
+export default function Info(props: IInfoProps) {
+  const { video, subTrack } = props;
 
   return (
     <Grid>
