@@ -8,10 +8,12 @@ const supportedFileTypes = [
   'video/mkv',
 ];
 
-const isSupportedAPI = () =>
-  window.File || window.FileReader || window.FileList || window.Blob;
+const isSupportedAPI = () => File || FileReader || FileList || Blob;
 
-export function fileToVideoInfo(file: File) {
+export function fileToVideoInfo(
+  file: File,
+  onProgress: (progress: number) => void
+) {
   if (!isSupportedAPI) {
     throw new Error('The File APIs are not fully supported in this browser.');
   }
@@ -23,11 +25,15 @@ export function fileToVideoInfo(file: File) {
   return new Promise(resolve => {
     const arrayBufferReader = new FileReader();
 
+    arrayBufferReader.onprogress = event => {
+      onProgress(event.loaded / event.total);
+    };
+
     arrayBufferReader.onloadend = async ({ target }: any) => {
       const blob = new Blob([new Uint8Array(target.result)], {
         type: file.type,
       });
-      const url = window.URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
       const hash = await getFileHash(file);
       const video: IVideo = {
         filename: file.name,

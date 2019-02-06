@@ -1,3 +1,4 @@
 {
+  "plugins": ["emotion"],
   "presets": ["env", "react"]
 }

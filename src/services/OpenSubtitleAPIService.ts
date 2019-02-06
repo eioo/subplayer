@@ -1,3 +1,4 @@
+import axios from 'axios';
 import config from '../config';
 import { ISubtitle, IVideo } from '../types/models';
 import { sliceString } from '../utils/sliceString';
@@ -62,11 +63,19 @@ export async function searchSubtitlesByHash(
   accessToken: string
 ): Promise<ISubtitle[]> {
   const xmlBody = getXMLStringForSearchSubtitles(accessToken, hash);
-  const request = await fetch(API_URL, {
-    method: 'POST',
-    body: xmlBody,
+
+  console.log('haloo');
+
+  const response = await axios.post(API_URL, xmlBody, {
+    onUploadProgress: e => {
+      console.log(e);
+    },
+    onDownloadProgress: e => {
+      console.log('x', e);
+    },
   });
-  let text = await request.text();
+
+  let text = response.data;
 
   const extractData = (key: string) => {
     const start = `${key}</name><value><string>`;

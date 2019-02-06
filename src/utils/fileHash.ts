@@ -20,7 +20,9 @@ export async function getFileHash(file: File): Promise<string> {
   };
 
   const process = (chunk: string) => {
-    for (let i = 0; i < chunk.length; i++) {
+    const { length } = chunk;
+
+    for (let i = 0; i < length; i++) {
       longs[(i + 8) % 8] += chunk.charCodeAt(i);
     }
   };
